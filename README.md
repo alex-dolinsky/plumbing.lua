@@ -24,4 +24,4 @@ At the moment only raw vector operations are supported, more will follow in time
 
 #### Usage
 
-plumbing({1, 2, 3}):vec_add({9, 2, 3}, {5, 3, 1}):vec_smult(7):normalize():unpack() or .ouput
+- plumbing({1, 2, 3}):vec_add({9, 2, 3}, {5, 3, 1}):vec_smult(7):normalize():unpack() or .output
