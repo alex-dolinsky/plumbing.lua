@@ -23,8 +23,6 @@
 local __ = require "libs/underscore"
 local table_iterator = __.table_iterator
 
-local plumbing = {}
-
 local add = function(x, y) return x + y end
 local sub = function(x, y) return x - y end
 local mult = function(x, y) return x * y end
@@ -37,6 +35,8 @@ local multi_mult = function(...) return single_to_multi(mult, ...) end
 local multi_div = function(...) return single_to_multi(div, ...) end
 local multi_sqrt = function(...) return single_to_multi(sqrt, ...) end
 local vec_math = function(func, ...) return __({...}):multi_map(func) end
+
+local plumbing = {}
 
 plumbing.vec_len = function(_) return math.sqrt(__(_):chain():map(sqrt):simple_reduce(add):value()) end
 
