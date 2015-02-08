@@ -8,6 +8,7 @@ At the moment only raw vector operations are supported, more will follow in time
 
 - vec_len : returns a scalar, the vector's length.
 - normalize : returns a normalized vector.
+- unpack : a multiple return of every member in a vector.
 
 ###### single vector and a scalar operations
 
@@ -19,3 +20,8 @@ At the moment only raw vector operations are supported, more will follow in time
 - vec_sub : a difference
 - vec_mult : a product
 - vec_div : a quotient
+
+
+#### Usage
+
+plumbing({1, 2, 3}):vec_add({9, 2, 3}, {5, 3, 1}):vec_smult(7):normalize():unpack() or .ouput
