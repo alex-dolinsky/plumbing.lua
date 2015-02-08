@@ -29,3 +29,10 @@ get it here: https://github.com/alex-dolinsky/underscore.lua
 
 - piping: plumbing({1, 2, 3}):vec_add({9, 2, 3}, {5, 3, 1}):vec_smult(7):normalize():unpack() or .output
 - functional: plumbing.vec_add({9, 2, 3}, {5, 3, 1})
+- a cool MOAI/Hanappe example: body:setLinearVelocity(plumbing({layer:wndToWorld(event.x, event.y)}):vec_sub({body:getPos()}):normalize():vec_smult(speed):unpack())
+
+
+## Links
+- MOAI: http://getmoai.com 
+- MOAI github: https://github.com/moai
+- Hanappe github: https://github.com/makotok/Hanappe

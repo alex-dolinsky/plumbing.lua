@@ -79,8 +79,8 @@ local wrap_for_piping = function(table)
 end
 
 return (function()
+	local prototype = {unpack = function(self) return unpack(self.output) end}
 	local meta = {}
-	local unpack_output = function(self) return unpack(self.output) end
 	meta.__call = function(self, _)
 		self.output = _
 		return self
@@ -89,5 +89,5 @@ return (function()
 		return plumbing[key]
 	end
 	wrap_for_piping(plumbing)
-	return setmetatable({unpack = unpack_output}, meta)
+	return setmetatable(prototype, meta)
 end)()
