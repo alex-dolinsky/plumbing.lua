@@ -20,11 +20,6 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
---- plumbing.lua is a library for operations of all kinds that favors piping.
---- As an example it makes vector operations a lot more readable.
---- Uses and is heavily inspired by underscore.lua through a fork that I made, get
---- it here: https://github.com/alex-dolinsky/underscore.lua
-
 local __ = require "libs/underscore"
 local table_iterator = __.table_iterator
 
@@ -83,8 +78,6 @@ local wrap_for_piping = function(table)
 	__(table_iterator(table)):each(function(pair) table[pair.key] = __.wrap(pair.value, wrapper) end)
 end
 
--- usage example plumbing({5, 6, 7):vec_sub({1, 1, 1}):vec_smult(7).output or :unpack()
--- can also be used in a traditional functional manner
 return (function()
 	local meta = {}
 	local unpack_output = function(self) return unpack(self.output) end
