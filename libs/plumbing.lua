@@ -67,13 +67,12 @@ plumbing.vec_div = function(...)
 end
 
 local wrap_for_piping = function(table)
-	local wrapper = function(callback, ...)
-			local this = select(1, ...)
+	local wrapper = function(callback, this, ...)
 			if this.output then
-				this.output = callback(this.output, unpack(__.rest({...})))
+				this.output = callback(this.output, ...)
 				return this
 			end
-			return callback(...)
+			return callback(this, ...)
 		end
 	__(table_iterator(table)):each(function(pair) table[pair.key] = __.wrap(pair.value, wrapper) end)
 end
