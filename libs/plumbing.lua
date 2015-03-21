@@ -36,6 +36,12 @@ local multi_div = function(...) return single_to_multi(div, ...) end
 local multi_sqrt = function(...) return single_to_multi(sqrt, ...) end
 local vec_math = function(func, ...) return __({...}):multi_map(func) end
 
+local reciprocal = function(x) return 1.0 / x end
+local switch_args_maybe = function(_, scalar)
+	if type(_) ~= "table" then _, scalar = scalar, _ end
+	return _, scalar
+end
+
 local plumbing = {}
 
 plumbing.vec_len = function(_) return math.sqrt(__(_):chain():map(sqrt):simple_reduce(add):value()) end
@@ -54,8 +60,12 @@ plumbing.vec_sub = function(...)
 end
 
 plumbing.vec_smult = function(_, scalar)
-	if type(_) ~= "table" then _, scalar = scalar, _ end  -- switches arguments in case of piping
+	_, scalar = switch_args_maybe (_, scalar)
 	return __(_):map(__.curry(mult, scalar))
+end
+
+plumbing.vec_sdiv = function(_, scalar)
+	return plumbing.vec_smult(_, reciprocal (scalar))
 end
 
 plumbing.vec_mult = function(...)
