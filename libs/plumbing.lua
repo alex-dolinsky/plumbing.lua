@@ -27,13 +27,13 @@ local add = function(x, y) return x + y end
 local sub = function(x, y) return x - y end
 local mult = function(x, y) return x * y end
 local div = function(x, y) return x / y end
-local sqrt = function(x) return x * x end
+local sqr = function(x) return x * x end
 local single_to_multi = function(func, ...) return __({...}):simple_reduce(func) end
 local multi_add = function(...) return single_to_multi(add, ...) end
 local multi_sub = function(...) return single_to_multi(sub, ...) end
 local multi_mult = function(...) return single_to_multi(mult, ...) end
 local multi_div = function(...) return single_to_multi(div, ...) end
-local multi_sqrt = function(...) return single_to_multi(sqrt, ...) end
+local multi_sqr = function(...) return single_to_multi(sqr, ...) end
 local vec_math = function(func, ...) return __({...}):multi_map(func) end
 
 local reciprocal = function(x) return 1.0 / x end
@@ -44,7 +44,7 @@ end
 
 local plumbing = {}
 
-plumbing.vec_len = function(_) return math.sqrt(__(_):chain():map(sqrt):simple_reduce(add):value()) end
+plumbing.vec_len = function(_) return math.sqrt(__(_):chain():map(sqr):simple_reduce(add):value()) end
 
 plumbing.normalize = function(_)
 	local vec_len = plumbing.vec_len(_)
