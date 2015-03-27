@@ -17,10 +17,6 @@ get it here: https://github.com/alex-dolinsky/underscore.lua
 
 - vec_smult : returns a vector multiplied by a scalar, the order of arguments is irrelevant.
 
-###### dual vector operations
-
-- vec_cart_prod : returns a Cartesian product of two vectors as a vector. Example: {1,2}, {3,4} => {{1,3}, {2,4}, {2,3}, {1,4}}
-
 ###### multiple vector operations, *each of these returns a single vector*
 
 - vec_add : a sum
