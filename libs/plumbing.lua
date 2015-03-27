@@ -27,93 +27,93 @@ local tab_iter = __.table_iterator
 
 local vec_math = function (func, ...) return __ ({...}) : multi_map (func) end
 local switch_args_maybe = function (_, scalar)
-	if type (_) ~= "table" then _, scalar = scalar, _ end
-	return _, scalar
+    if type (_) ~= "table" then _, scalar = scalar, _ end
+    return _, scalar
 end
 
 local plumbing = {}
 
 plumbing.vec_len = function (_)
-	return math.sqrt (__ (_)
-						: chain ()
-						: map (simplemath.sqr)
-						: simple_reduce (simplemath.add)
-						: value ()) end
+    return math.sqrt (__ (_)
+                        : chain ()
+                        : map (simplemath.sqr)
+                        : simple_reduce (simplemath.add)
+                        : value ()) end
 
 plumbing.normalize = function (_)
-	local vec_len = plumbing.vec_len (_)
-	return __ (_) : map(function (x) return simplemath.div (x, vec_len) end)
+    local vec_len = plumbing.vec_len (_)
+    return __ (_) : map(function (x) return simplemath.div (x, vec_len) end)
 end
 
 plumbing.vec_add = function (...)
-	return vec_math (simplemath.multi_add, ...)
+    return vec_math (simplemath.multi_add, ...)
 end
 
 plumbing.vec_sub = function (...)
-	return vec_math (simplemath.multi_sub, ...)
+    return vec_math (simplemath.multi_sub, ...)
 end
 
 plumbing.vec_smult = function (_, scalar)
-	_, scalar = switch_args_maybe (_, scalar)
-	return __ (_) : map (__.curry (simplemath.mult, scalar))
+    _, scalar = switch_args_maybe (_, scalar)
+    return __ (_) : map (__.curry (simplemath.mult, scalar))
 end
 
 plumbing.vec_sdiv = function (_, scalar)
-	return plumbing.vec_smult (_, simplemath.reciprocal(scalar))
+    return plumbing.vec_smult (_, simplemath.reciprocal(scalar))
 end
 
 plumbing.vec_mult = function (...)
-	return vec_math (simplemath.multi_mult, ...)
+    return vec_math (simplemath.multi_mult, ...)
 end
 
 plumbing.vec_div = function (...)
-	return vec_math (simplemath.multi_div, ...)
+    return vec_math (simplemath.multi_div, ...)
 end
 
 plumbing.vec_id = function (_)
-	return {unpack (_)}
+    return {unpack (_)}
 end
 
 plumbing.vec_ord_perm = function (vec)
-    _s = {vec}
-    __ (__.rangeV2 (2, #vec)) : each ( function () 
-        vec = plumbing.vec_id (vec)
-        local _ = __ (vec) : pop ()
-        vec = __ (vec) : unshift (_)
-        __ (_s) : push (vec)
-    end )
+    local _1 = vec
+    return __ (vec) : map (function ()
+        _1 = plumbing.vec_id (_1)
+        local _2 = __ (_1) : pop ()
+        return __ (_1) : unshift (_2)
+    end)
+end
+
+plumbing.vec_cart_prod = function (v1, v2)
+    local _s = {}
+    local perms = plumbing.vec_ord_perm (v2)
+    __ (perms)
+            : each (function (perm)
+                        __ (_s) : append (unpack (__ ({v1, perm}) : zip ())) end)
     return _s
 end
 
-plumbing.vec_cart = function (v1, v2)
-    local perms = plumbing.vec_ord_perm (v1)
-    return __ (perms) : map (function (perm)
-        perm = plumbing.vec_id (perm)
-        return __ ({perm, v2}) : zip () end)
-end
-
 local wrap_for_piping = function (table)
-	local wrapper = function (callback, this, ...)
-			if this.output then
-				this.output = callback (this.output, ...)
-				return this
-			end
-			return callback (this, ...)
-		end
-	__ (tab_iter(table)) : each(function (pair) 
-		table[pair.key] = __.wrap (pair.value, wrapper) end)
+    local wrapper = function (callback, this, ...)
+            if this.output then
+                this.output = callback (this.output, ...)
+                return this
+            end
+            return callback (this, ...)
+        end
+    __ (tab_iter(table)) : each(function (pair) 
+        table[pair.key] = __.wrap (pair.value, wrapper) end)
 end
 
 return (function()
-	local prototype = {unpack = function (self) return unpack (self.output) end}
-	local meta = {}
-	meta.__call = function (self, _)
-		self.output = _
-		return self
-	end
-	meta.__index = function (self, key)
-		return plumbing[key]
-	end
-	wrap_for_piping (plumbing)
-	return setmetatable (prototype, meta)
+    local prototype = {unpack = function (self) return unpack (self.output) end}
+    local meta = {}
+    meta.__call = function (self, _)
+        self.output = _
+        return self
+    end
+    meta.__index = function (self, key)
+        return plumbing[key]
+    end
+    wrap_for_piping (plumbing)
+    return setmetatable (prototype, meta)
 end)()
