@@ -10,10 +10,16 @@ get it here: https://github.com/alex-dolinsky/underscore.lua
 
 - vec_len : returns a scalar, the vector's length.
 - normalize : returns a normalized vector.
+- vec_id : returns a copy of a vector, which is a different object that contains the same members (shallow copy).
+- vec_ord_perm : returns ordered permutations for a vector as a vector. Example: {1, 2, 3} => {{1, 2, 3}, {3, 1, 2}, {2, 3, 1}}
 
 ###### single vector and a scalar operations
 
 - vec_smult : returns a vector multiplied by a scalar, the order of arguments is irrelevant.
+
+###### dual vector operations
+
+- vec_cart_prod : returns a Cartesian product of two vectors as a vector. Example: {1, 2}, {3, 4} => {{1, 3}, {2, 4}, {2, 3}, {1, 4}}
 
 ###### multiple vector operations, *each of these returns a single vector*
 
