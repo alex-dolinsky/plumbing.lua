@@ -22,6 +22,7 @@
 
 local __ = require "libs/underscore"
 local simplemath = require "libs/simplemath"
+local simpleutils = require "libs/simpleutils"
 
 local tab_iter = __.table_iterator
 
@@ -74,6 +75,7 @@ plumbing.vec_id = function (_)
     return {unpack (_)}
 end
 
+
 plumbing.vec_ord_perm = function (vec)
     local _1 = vec
     return __ (vec) : map (function ()
@@ -83,13 +85,35 @@ plumbing.vec_ord_perm = function (vec)
     end)
 end
 
-plumbing.vec_cart_prod = function (v1, v2)
-    local _s = {}
-    local perms = plumbing.vec_ord_perm (v2)
-    __ (perms)
-            : each (function (perm)
-                        __ (_s) : append (unpack (__ ({v1, perm}) : zip ())) end)
-    return _s
+plumbing.vec_cart_prod = function (...)
+    local expand_vec = function (vec, len, node_factor)
+        vec = simpleutils.make_circular_list (plumbing.vec_id (vec))
+        local step = 1
+        return __ (__.rangeV2 (1, len))
+                : map (function (idx)
+                    local _ = vec[step]
+                    if idx % node_factor == 0 then step = step + 1 end
+                    return _ end)
+    end
+    local generate_node_factors = function (vecs, len)
+        local _ = len
+        return __ (vecs) : map (function (vec)
+                                        _ = _ / #vec
+                                        return _ end)
+    end
+
+    local vecs = simpleutils.sort_by_len (...)
+    local len = __ (vecs)
+                    : chain ()
+                    : map (function (vec) return #vec end)
+                    : simple_reduce (simplemath.mult)
+                    : value ()
+    local node_factors = generate_node_factors (vecs, len)
+    return __ (__.rangeV2 (1, #vecs))
+                    : chain ()
+                    : map (function (idx) return expand_vec (vecs[idx], len, node_factors[idx]) end)
+                    : zip ()
+                    : value ()
 end
 
 local wrap_for_piping = function (table)
