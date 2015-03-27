@@ -95,20 +95,23 @@ plumbing.vec_cart_prod = function (...)
                     if idx % node_factor == 0 then step = step + 1 end
                     return _ end)
     end
-    local generate_node_factors = function (vecs, len)
+    local gen_node_factors = function (vecs, len)
         local _ = len
         return __ (vecs) : map (function (vec)
                                         _ = _ / #vec
                                         return _ end)
     end
-
-    local vecs = simpleutils.sort_by_len (...)
-    local len = __ (vecs)
+    local calc_num_perms = function (...)
+	    return __ ({...})
                     : chain ()
-                    : map (function (vec) return #vec end)
+                    : map (function (_) return #_ end)
                     : simple_reduce (simplemath.mult)
                     : value ()
-    local node_factors = generate_node_factors (vecs, len)
+    end
+
+    local len = calc_num_perms (...)
+    local vecs = simpleutils.sort_by_len (...)
+    local node_factors = gen_node_factors (vecs, len)
     return __ (__.rangeV2 (1, #vecs))
                     : chain ()
                     : map (function (idx) return expand_vec (vecs[idx], len, node_factors[idx]) end)
