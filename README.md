@@ -11,7 +11,7 @@ get it here: https://github.com/alex-dolinsky/underscore.lua
 - vec_len : returns a scalar, the vector's length.
 - normalize : returns a normalized vector.
 - vec_id : returns a copy of a vector, which is a different object that contains the same members (shallow copy).
-- vec_ord_perm : returns ordered permutations for a vector as a vector. Example: {1, 2, 3} => {{1, 2, 3}, {3, 1, 2}, {2, 3, 1}}
+- vec_ord_perm : returns ordered permutations for a vector as a vector. Example: {1,2,3} => {{1,2,3}, {3,1,2}, {2,3,1}}
 
 ###### single vector and a scalar operations
 
@@ -23,7 +23,7 @@ get it here: https://github.com/alex-dolinsky/underscore.lua
 - vec_sub : a difference
 - vec_mult : a product
 - vec_div : a quotient
-- vec_cart_prod : returns a Cartesian product of multiple vectors as a vector. Example: {1, 2}, {3, 4}, {5, 6} =>
+- vec_cart_prod : returns a Cartesian product of multiple vectors as a vector. Example: {1,2}, {3,4}, {5,6} =>
 {{1,3,5}, {1,3,6}, {1,4,5}, {1,4,6}, {2,3,5}, {2,3,6}, {2,4,5}, {2,4,6}}
 
 ###### utility operations, only in piping!
@@ -31,8 +31,8 @@ get it here: https://github.com/alex-dolinsky/underscore.lua
 
 #### Usage
 
-- piping: plumbing({1, 2, 3}):vec_add({9, 2, 3}, {5, 3, 1}):vec_smult(7):normalize():unpack() or .output
-- functional: plumbing.vec_add({9, 2, 3}, {5, 3, 1})
+- piping: plumbing ({1,2,3}) : vec_add ({9,2,3}, {5,3,1}) : vec_smult (7) : normalize () : unpack () or .output
+- functional: plumbing.vec_add ({9,2,3}, {5,3,1})
 - a cool MOAI/Hanappe example: body:setLinearVelocity(plumbing ({layer : wndToWorld (event.x, event.y)}) : vec_sub ({body  : getPos ()}) : normalize() : vec_smult (speed) : unpack())
 
 
