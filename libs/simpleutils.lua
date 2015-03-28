@@ -24,12 +24,12 @@ local __ = require "libs/underscore"
 
 local simpleutils = {}
 
-simpleutils.make_circular_list = function (prototype)
-    local meta = {__index = function (t, idx)
-                                idx = idx % #t
-                                if idx == 0 then idx = #t end
-                                return t[idx] end}
-    return setmetatable(prototype, meta)
+simpleutils.cls_circular_list = function (proto)
+    local meta = {__index = function (l, idx)
+                                idx = idx % #l
+                                if idx == 0 then idx = #l end
+                                return l[idx] end}
+    return setmetatable (proto, meta)
 end
 
 simpleutils.sort_by_len = function (...)

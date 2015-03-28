@@ -87,7 +87,7 @@ end
 
 plumbing.vec_cart_prod = function (...)
     local expand_vec = function (vec, len, node_factor)
-        vec = simpleutils.make_circular_list (plumbing.vec_id (vec))
+        vec = simpleutils.cls_circular_list (plumbing.vec_id (vec))
         local step = 1
         return __ (__.rangeV2 (1, len))
                 : map (function (idx)
@@ -132,7 +132,7 @@ local wrap_for_piping = function (table)
 end
 
 return (function()
-    local prototype = {unpack = function (self) return unpack (self.output) end}
+    local proto = {unpack = function (self) return unpack (self.output) end}
     local meta = {}
     meta.__call = function (self, _)
         self.output = _
@@ -142,5 +142,5 @@ return (function()
         return plumbing[key]
     end
     wrap_for_piping (plumbing)
-    return setmetatable (prototype, meta)
+    return setmetatable (proto, meta)
 end)()
