@@ -96,10 +96,7 @@ plumbing.vec_cart_prod = function (...)
                     return _ end)
     end
     local gen_node_factors = function (vecs, len)
-        local _ = len
-        return __ (vecs) : map (function (vec)
-                                        _ = _ / #vec
-                                        return _ end)
+        return __ (vecs) : map (function (vec) len = len / #vec return len end)
     end
     local calc_num_perms = function (...)
 	    return __ ({...})
