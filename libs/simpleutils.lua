@@ -25,10 +25,13 @@ local __ = require "libs/underscore"
 local simpleutils = {}
 
 simpleutils.cls_circular_list = function (proto)
+    proto = proto or {}
     local meta = {__index = function (l, idx)
-                                idx = idx % #l
-                                if idx == 0 then idx = #l end
-                                return l[idx] end}
+                        if #l > 0 then
+                            idx = math.floor (idx % #l)
+                            if idx == 0 then idx = #l end
+                            return l[idx] end
+                        end}
     return setmetatable (proto, meta)
 end
 
