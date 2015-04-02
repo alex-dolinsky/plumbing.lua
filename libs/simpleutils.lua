@@ -35,6 +35,14 @@ simpleutils.cls_circular_list = function (proto)
     return setmetatable (proto, meta)
 end
 
+simpleutils.cls_safe_circular_list  = function (default)
+    local list = simpleutils.cls_circular_list ()
+    local push = __ (__.push) : curry (list)
+    local pop = __ (__.pop) : curry (list)
+    local at = function (idx) return list[idx] end
+    return {push = push, pop = pop, at = at}
+end
+
 simpleutils.sort_by_len = function (...)
     return __ ({...}) : sort (function (li1, li2) return #li1 > #li2 end)
 end
