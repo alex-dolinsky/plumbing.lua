@@ -43,7 +43,11 @@ plumbing.vec_len = function (_)
 
 plumbing.normalize = function (_)
     local vec_len = plumbing.vec_len (_)
-    return __ (_) : map(function (x) return simplemath.div (x, vec_len) end)
+    return __ (_) : map (function (x) return simplemath.div (x, vec_len) end)
+end
+
+plumbing.normalize_all = function (...)
+    __ ({...}) : map (plumbing.normalize)
 end
 
 plumbing.vec_add = function (...)
