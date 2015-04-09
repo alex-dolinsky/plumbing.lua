@@ -41,4 +41,12 @@ simplemath.reciprocal = function (x) return 1.0 / x end
 simplemath.even = function (x) return x % 2 == 0 end
 simplemath.odd = __.negate (simplemath.even)
 
+simplemath.sqrd_diff = __ (simplemath.sqr) : compose (math.abs, simplemath.sub)
+
+simplemath.one_or_none = function (num) return num > 0 and num <= 1.0 end
+simplemath.all_one = function (...) return __ ({...}) : all (simplemath.one_or_none) end
+
+simplemath.incr = function (x) return simplemath.add (x, 1) end
+simplemath.decr = function (x) return simplemath.sub (x, 1) end
+
 return simplemath

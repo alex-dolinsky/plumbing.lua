@@ -41,14 +41,24 @@ plumbing.vec_len = function (_)
                         : simple_reduce (simplemath.add)
                         : value ()) end
 
+plumbing.vec_dist = function (...)
+    return math.sqrt (__ ({...})
+                        : chain ()
+                        : zip ()
+                        : map (function (vec)
+                                return __ (vec) : simple_reduce (function (a, b)
+                                    return simplemath.sqrd_diff (a, b) end)
+                            end)
+                        : simple_reduce (simplemath.add)
+                        : value ())
+end
+
 plumbing.normalize = function (_)
     local vec_len = plumbing.vec_len (_)
     return __ (_) : map (function (x) return simplemath.div (x, vec_len) end)
 end
 
-plumbing.normalize_all = function (...)
-    __ ({...}) : map (plumbing.normalize)
-end
+plumbing.normalize_all = function (...) return __ ({...}) : map (plumbing.normalize) end
 
 plumbing.vec_add = function (...)
     return vec_math (simplemath.multi_add, ...)
@@ -79,7 +89,6 @@ plumbing.vec_id = function (_)
     return {unpack (_)}
 end
 
-
 plumbing.vec_ord_perm = function (vec)
     local _1 = vec
     return __ (vec) : map (function ()
@@ -100,10 +109,11 @@ plumbing.vec_cart_prod = function (...)
                     return _ end)
     end
     local gen_node_factors = function (vecs, len)
+        local _ = len
         return __ (vecs) : map (function (vec) len = len / #vec return len end)
     end
     local calc_num_perms = function (...)
-	    return __ ({...})
+        return __ ({...})
                     : chain ()
                     : map (function (_) return #_ end)
                     : simple_reduce (simplemath.mult)
